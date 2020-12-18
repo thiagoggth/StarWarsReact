@@ -11,8 +11,12 @@ const Home = () => {
     setAnimationFinished(true);
   };
 
+  const skipAnimation = () => {
+    setAnimationFinished(true);
+  }
+
   if (!animationFinished) {
-    return <Intro onAnimationFinish={onAnimationFinish} />;
+    return <Intro onAnimationFinish={onAnimationFinish} skipAnimation={skipAnimation}/>;
   }
 
   const options = [
