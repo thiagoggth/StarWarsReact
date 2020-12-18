@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Intro from "../../components/Intro";
 import Logo from "../../components/Logo/index ";
 import MenuItem from "../../components/MenuItem";
-import api from "../../services/api";
-
 import * as S from "./styled";
 
 const Home = () => {
@@ -25,18 +23,17 @@ const Home = () => {
     "veículos",
   ];
   return (
-    <S.HomeContainer>
+    <S.HomeContainer className="menu">
       <S.LogoContent>
-        <S.Logo>
-          <Logo />
-        </S.Logo>
+        <Logo />
       </S.LogoContent>
-      <S.MenuContent>
-        {options.map((option, index)=> (
-          <MenuItem key={index} text={option} />
-        ))}
-        
-      </S.MenuContent>
+      <S.MenuItemsWrapper>
+        <S.MenuContent>
+          {options.map((option, index) => (
+            <MenuItem key={index} text={option} />
+          ))}
+        </S.MenuContent>
+      </S.MenuItemsWrapper>
     </S.HomeContainer>
   );
 };

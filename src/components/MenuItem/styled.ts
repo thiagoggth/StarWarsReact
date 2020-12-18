@@ -8,8 +8,8 @@ export const MenuItemContainer = styled.div`
   border-radius: 4px;
   border: 1px solid ${mainColor};
   padding: 10px;
-  width: 300px;
-  height: 300px;
+  width: 25%;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,13 +17,21 @@ export const MenuItemContainer = styled.div`
   color: ${mainColor};
   transition: 0.2s ease-in-out;
 
+  @media screen and (max-width: 1200px){
+    height: 4rem;
+  }
+
   &:hover{
     border-color: ${mainColorHover};
     color: ${mainColorHover};
+  }
+
+  @media screen and (max-width: 768px){
+    width: 80%;
   }
 `;
 
 export const MenuItemText = styled.p`
   font-weight: bold;
-  font-size: 35px;
+  font-size: 1.5rem;
 `;
