@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Intro from "../../components/Intro";
 import Logo from "../../components/Logo/index ";
 import MenuItem from "../../components/MenuItem";
-import api from "../../services/api";
-
 import * as S from "./styled";
 
 const Home = () => {
@@ -13,30 +12,34 @@ const Home = () => {
     setAnimationFinished(true);
   };
 
+  const skipAnimation = () => {
+    setAnimationFinished(true);
+  }
+
   if (!animationFinished) {
-    return <Intro onAnimationFinish={onAnimationFinish} />;
+    return <Intro onAnimationFinish={onAnimationFinish} skipAnimation={skipAnimation}/>;
   }
 
   const options = [
-    "Personagens",
-    "Planetas",
-    "Filmes",
-    "Espaçonaves",
-    "veículos",
+    "People",
+    "Planets",
+    "Films",
+    "Species",
+    "Vehicles",
+    "Star ships",
   ];
   return (
-    <S.HomeContainer>
+    <S.HomeContainer className="menu">
       <S.LogoContent>
-        <S.Logo>
-          <Logo />
-        </S.Logo>
+        <Logo />
       </S.LogoContent>
-      <S.MenuContent>
-        {options.map((option, index)=> (
-          <MenuItem key={index} text={option} />
-        ))}
-        
-      </S.MenuContent>
+      <S.MenuItemsWrapper>
+        <S.MenuContent>
+          {options.map((option, index) => (
+            <MenuItem key={index} text={option} to={option} />
+          ))}
+        </S.MenuContent>
+      </S.MenuItemsWrapper>
     </S.HomeContainer>
   );
 };

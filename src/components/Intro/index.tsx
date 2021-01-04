@@ -4,16 +4,18 @@ import "./introAnimation.css";
 
 type IntroProps = {
   onAnimationFinish: () => void;
+  skipAnimation?: ()=> void;
 };
 
 const Intro = (props: IntroProps) => {
-  const { onAnimationFinish } = props;
+  const { onAnimationFinish,  skipAnimation} = props;
 
   useEffect(() => {
     setTimeout(onAnimationFinish, 10000);
   }, []);
 
   return (
+    <div style={{width: "100vw", height: '100vh'}} onClick={skipAnimation}>
     <div className="starwars">
       <img
         src="https://raw.githubusercontent.com/silas00/Starwars/master/img/star.svg"
@@ -28,6 +30,7 @@ const Intro = (props: IntroProps) => {
       <h1 className="byline" id="byline">
         Seja Bem-Vindo
       </h1>
+    </div>
     </div>
   );
 };
