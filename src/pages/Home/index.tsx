@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Intro from "../../components/Intro";
 import Logo from "../../components/Logo/index ";
 import MenuItem from "../../components/MenuItem";
@@ -20,11 +21,12 @@ const Home = () => {
   }
 
   const options = [
-    "Personagens",
-    "Planetas",
-    "Filmes",
-    "Espaçonaves",
-    "veículos",
+    "People",
+    "Planets",
+    "Films",
+    "Species",
+    "Vehicles",
+    "Star ships",
   ];
   return (
     <S.HomeContainer className="menu">
@@ -34,7 +36,7 @@ const Home = () => {
       <S.MenuItemsWrapper>
         <S.MenuContent>
           {options.map((option, index) => (
-            <MenuItem key={index} text={option} />
+            <MenuItem key={index} text={option} to={option} />
           ))}
         </S.MenuContent>
       </S.MenuItemsWrapper>

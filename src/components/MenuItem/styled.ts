@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const mainColor = 'rgba(253,242,83,1)'
 const mainColorHover = 'rgba(229,177,58,1)'
 
-export const MenuItemContainer = styled.div`
+export const MenuItemContainer = styled(Link)`
   margin: 20px;
   border-radius: 4px;
   border: 1px solid ${mainColor};
@@ -16,6 +17,7 @@ export const MenuItemContainer = styled.div`
   cursor: pointer;
   color: ${mainColor};
   transition: 0.2s ease-in-out;
+  text-decoration: none;
 
   @media screen and (max-width: 1200px){
     height: 4rem;
