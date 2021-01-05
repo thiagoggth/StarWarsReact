@@ -1,141 +1,72 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import Header from "../../components/Header";
-import api from "../../services/api";
+import OptionCard from "../../components/OptionCard";
+import pixabayApi from "../../services/bingApi";
+import swApi from "../../services/swApi";
 
-interface ApiPeople {
-  name: string;
-  height: string;
-  mass: string;
-  hair_color: string;
-  skin_color: string;
-  eye_color: string;
-  birth_year: string;
-  gender: string;
-  homewold: string;
-  films: string[];
-  species: string[];
-  vehicles: string[];
-  starships: string[];
-  url: string;
-}
-
-interface ApiData {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: ApiPeople[];
-}
+import { ApiDataType, ApiPeopleType } from "../../types/ApiTypes";
+import * as S from "./styled";
 
 const People = () => {
-  const [people, setPeople] = useState<ApiPeople[]>([]);
+  const [people, setPeople] = useState<ApiPeopleType[]>([]);
 
   const getPeopleList = async () => {
-    const { data } = await api.get<ApiData>("/people");
+    const { data } = await swApi.get<ApiDataType>("/people");
 
-    setPeople(data.results);
+    getAndSetPeopleImageList(data.results);
+  };
+
+  const getAndSetPeopleImageList = async (peopleList: ApiPeopleType[]) => {
+    const newList: ApiPeopleType[] = [];
+
+    for (const character of peopleList) {
+      const { data } = await pixabayApi.get("/", {
+        params: {
+          q: `${character.name} star wars`,
+        },
+      });
+
+      if (data.total !== 0) {
+        character.urlImage = data.value[0].contentUrl;
+      }
+      newList.push(character);
+    }
+
+    setPeople(newList);
+
+    // const newList = peopleList.map(async (character) => {
+    //   const { data } = await pixabayApi.get("/", {
+    //     params: {
+    //       q: character.name,
+    //     },
+    //   });
+
+    //   if(data.total !== 0){
+    //     character.urlImage = data.hits[0].webformatURL;
+    //     return character;
+    //   }
+    //   return character;
+    // });
   };
 
   useEffect(() => {
     getPeopleList();
   }, []);
 
-  const PeopleContent = styled.section`
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  `;
-
-  const PeopleListContainer = styled.div`
-    padding: 10px;
-    display: flex;
-    margin: 20px;
-    width: 100%;
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px;
-  `;
-
-  const PeopleCard = styled.div`
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(253, 242, 83, 1);
-  `;
-
-  const PeopleCardImg = styled.div`
-    width: 250px;
-    height: 300px;
-    background-color: #ccc;
-    background-image: url("https://starwars-visualguide.com/assets/img/characters/1.jpg");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border-radius: 4px;
-  `;
-  const PeopleCardTitle = styled.div`
-    text-align: center;
-    p {
-      font-size: 16px;
-      font-weight: bold;
-      color: rgba(253, 242, 83, 1);
-    }
-  `;
-
   return (
-    <PeopleContent>
-        <Header />
-        <h2 style={{color: 'white'}}>
-          Personagens
-        </h2>
-      <PeopleListContainer>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-        <PeopleCard>
-          <PeopleCardImg></PeopleCardImg>
-          <PeopleCardTitle>
-            <p>Luke Skywalker</p>
-          </PeopleCardTitle>
-        </PeopleCard>
-      </PeopleListContainer>
-    </PeopleContent>
+    <S.PeopleContent>
+      <Header />
+      <h2>Characters</h2>
+      <S.PeopleListContainer>
+        {people.map((character, index) => (
+          <OptionCard
+            label={character.name}
+            key={index}
+            photoUri={character.urlImage}
+          />
+        ))}
+      </S.PeopleListContainer>
+    </S.PeopleContent>
   );
 };
 

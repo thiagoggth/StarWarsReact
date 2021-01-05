@@ -1,42 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Logo from '../Logo/index ';
+import React from "react";
+import getMenuItens from "../../utils/getMenuItens";
+import Logo from "../Logo/index ";
+import * as S from "./styled";
 
-const HeaderContent = styled.div`
-  width: 100%;
-  height: 130px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const HeaderImage = styled.div`
-    width: 130px;
-    margin-left: 50px;
-    margin-top: 10px;
-`;
-
-const HeaderOptions = styled.div`
-  width: 70%;
-  height: 100px;
-  display: flex;
-  background-color: red;
-  justify-self: flex-end;
-`;
-
-const HeaderOption = styled(Link)``;
 
 const Header = () => {
+  const options = getMenuItens();
+
   return (
-    <HeaderContent>
-      <HeaderImage>
+    <S.HeaderContent>
+      <S.HeaderImage to="/">
         <Logo />
-      </HeaderImage>
-      <HeaderOptions>
-        
-      </HeaderOptions>
-    </HeaderContent>
-  )
-}
+      </S.HeaderImage>
+      <S.HeaderOptions>
+        {options.map((option, index) => (
+          <S.HeaderOption key={index} to={option.uri}>
+            {option.label}
+          </S.HeaderOption>
+        ))}
+      </S.HeaderOptions>
+    </S.HeaderContent>
+  );
+};
 
 export default Header;

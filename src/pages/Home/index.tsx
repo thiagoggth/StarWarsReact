@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Intro from "../../components/Intro";
 import Logo from "../../components/Logo/index ";
 import MenuItem from "../../components/MenuItem";
+import getMenuItens from "../../utils/getMenuItens";
 import * as S from "./styled";
 
 const Home = () => {
@@ -20,14 +20,7 @@ const Home = () => {
     return <Intro onAnimationFinish={onAnimationFinish} skipAnimation={skipAnimation}/>;
   }
 
-  const options = [
-    "People",
-    "Planets",
-    "Films",
-    "Species",
-    "Vehicles",
-    "Star ships",
-  ];
+  const options = getMenuItens();
   return (
     <S.HomeContainer className="menu">
       <S.LogoContent>
@@ -36,7 +29,7 @@ const Home = () => {
       <S.MenuItemsWrapper>
         <S.MenuContent>
           {options.map((option, index) => (
-            <MenuItem key={index} text={option} to={option} />
+            <MenuItem key={index} text={option.label} to={option.uri} />
           ))}
         </S.MenuContent>
       </S.MenuItemsWrapper>
